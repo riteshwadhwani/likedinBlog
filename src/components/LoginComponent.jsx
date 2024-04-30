@@ -2,8 +2,10 @@ import React from 'react'
 import {useForm} from 'react-hook-form'
 import { useEffect } from 'react';
 import Input from './formsComponents/Input';
+import { useNavigate } from 'react-router';
 
 const LoginComponent = () => {
+    const navigate = useNavigate();
     const {register,handleSubmit,formState:{errors,isSubmitSuccessful}, reset} = useForm();
 
     useEffect(()=>{
@@ -11,10 +13,28 @@ const LoginComponent = () => {
 
         });
     },[isSubmitSuccessful,reset])
+    const submit = async(data) =>{
+        const response = await axios.post('http://localhost:4000/api/v1/user/signin',{
+          email:data.email,password:data.password
+        });
+        console.log("response",response);
+        localStorage.setItem("token",response.data.token);
+        toast.success("Log In Sucessfully....")
+        navigate('/feed/');
+      
+    }
 
   return (
-    <div>
-       <form>
+    <div className='flex justify-center items-center'>
+       <form className=' flex flex-col gap-5 w-[400px] pt-7 h-[600px] shadow-md shadow-slate-500 rounded-lg p-5 bg-white'>
+        <div className='flex flex-col gap-1'>
+            <div className='font-semibold text-3xl'>
+              Sign in
+            </div>
+            <div>
+              Stay updated on your professional world.
+            </div>
+        </div>
        <div className='flex flex-col'>
            <label>
                 Email:
@@ -32,6 +52,15 @@ const LoginComponent = () => {
            {
             errors.email && <span> Password is required</span>
            }
+       </div>
+       <button onClick={handleSubmit(submit)} className='p-5 bg-blue-600 hover:bg-blue-800 rounded-full text-white font-semibold'>
+        Sign in
+       </button>
+       <div className='flex gap-2 justify-center items-center'>
+        <p className='text-2xl '>New to Linkedin</p>
+        <button className='text-xl font-bold text-blue-600' onClick={()=>{navigate('/linkedin-signup')}}>
+          Join now
+        </button>
        </div>
        </form>
     </div>

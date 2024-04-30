@@ -22,7 +22,11 @@ const postSchema = new mongoose.Schema({
         {
             type:mongoose.Schema.Types.ObjectId,
         }
-    ]
+    ],
+    image:{
+        type:String,
+        required:true,
+    }
 
 })
 

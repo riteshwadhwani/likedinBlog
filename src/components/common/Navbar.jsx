@@ -51,14 +51,17 @@ const navitems =[
 
 const Navbar = () => {
   const location = useLocation();
+  console.log("location",location.pathname);
+  const token = localStorage.getItem("token");
 
   const matchRoute = (route) => {
     return matchPath({ path: route }, location.pathname)
   }
   return (
-    <div className=' bg-white'>
+    <div className=' bg-white p-3'>
          <div className='w-10/12 flex justify-between mx-auto'>
-              <div className='flex p-3 relative justify-center items-center gap-6'>
+              {
+                token && <div className='flex p-3 relative justify-center items-center gap-6'>
                  <div>
                     <FaLinkedin className='w-12 h-12 text-blue-600'/>
                  </div>
@@ -68,9 +71,19 @@ const Navbar = () => {
                  </div>
 
               </div>
-              <div className='flex gap-2'>
+              }
               {
-                navitems.map((item,index)=>(
+                !token  && <Link to={'/'} className='flex justify-center items-center'>
+                  <p className='text-3xl text-blue-600 font-bold'>Linked</p>
+                  <FaLinkedin className='w-12 h-12 text-blue-600'/>
+
+                </Link> 
+              }
+              {
+                (location.pathname !== "linkedin-signin" || location.pathname !== "linkedin-signup") && <div className='flex gap-4'>
+                <div className='flex gap-2'>
+              {
+                 token && navitems.map((item,index)=>(
                   <Link to={item?.path} key={index}>
                     {
                       matchRoute(item?.path) ? (
@@ -100,6 +113,18 @@ const Navbar = () => {
               }
 
               </div>
+              {
+                !token && <div className='flex justify-center items-center gap-5'>
+                <Link to={'/linkedin-signup'} className='p-3 text-gray-600 font-semibold'>
+                  Join Now
+                </Link>
+                <Link to={'/linkedin-signin'} className='p-3 border border-blue-600 hover:bg-blue-100 rounded-full text-blue-600 text-xl font-semibold flex items-center justify-center'>
+                  Sign In
+                </Link>
+              </div> 
+              }
+                </div>
+              }
 
          </div>
     </div>

@@ -3,8 +3,10 @@ import './App.css'
 import {Route,Routes} from 'react-router-dom'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
-import Home from './pages/Home'
+import Feed from './pages/Feed'
 import Navbar from './components/common/Navbar'
+import Home from './pages/Home'
+import PrivateRoute from './components/PrivateRoute'
 
 function App() {
   return (
@@ -12,10 +14,10 @@ function App() {
     <Navbar/>
     <div className='h-8'></div>
          <Routes>
-           
-            <Route path='/linkedin-login' element={<Login/>}/>
+             <Route path='/' element= {<Home/>} />
+            <Route path='/linkedin-signin' element={<Login/>}/>
             <Route path='/linkedin-signup' element={<Signup/>} />
-            <Route path='/feed/' element={<Home/>} />
+            <Route path='/feed/' element={<PrivateRoute><Feed/></PrivateRoute>} />
          </Routes>
     </div>
   )

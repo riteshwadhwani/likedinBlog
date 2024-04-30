@@ -20,7 +20,8 @@ exports.user_signup = async (req,res) =>{
             })
         }
         const created_user =await User.create({
-            firstName,lastName,email,password
+            firstName,lastName,email,password,
+            image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
         })
         
         const token = jwt.sign( created_user.id,process.env.JWT_SECRET)
@@ -63,6 +64,22 @@ exports.user_login = async(req,res) =>{
         return res.status(401).json({
             sucess:false,
             message:"Error while LoggIn"
+        })
+    }
+}
+
+exports.get_user_details = async(req,res) =>{
+    try {
+        const userId = req.userId;
+        const user_details = await User.findById(userId).populate("posts").exec();
+        res.json({
+            sucess:true,
+            data:user_details
+        })
+    } catch (error) {
+        return res.status(401).json({
+            sucess:false,
+            message:"Error while Fetching the data"
         })
     }
 }
