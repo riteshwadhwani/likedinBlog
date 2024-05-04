@@ -48,13 +48,15 @@ exports.user_login = async(req,res) =>{
                 message:"User Not Registered Yet"
             })
         }
+        
         if(existing_user.password !== password){
             return res.status(401).json({
                 sucess:false,
                 message:"Invalid Credentials"
             })
         }
-        const token = jwt.sign(existing_user._id,process.env.JWT_SECRET);
+        
+        const token = jwt.sign( existing_user.id,process.env.JWT_SECRET);
         res.json({
             sucess :true,
             existing_user,

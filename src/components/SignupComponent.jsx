@@ -21,7 +21,9 @@ const SignupComponent = () => {
               lastName:data.lastName,
               password:data.password
             });
-            localStorage.setItem("token", response.data.token)
+            console.log("Response on signup....",response);
+            localStorage.setItem("token",JSON.stringify(response.data.token));
+            localStorage.setItem("user",JSON.stringify(response.data?.created_user));
             toast.success("Registered Successfully..")
             navigate("/feed/")
     }

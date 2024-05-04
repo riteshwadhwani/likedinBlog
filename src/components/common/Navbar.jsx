@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {IoHomeSharp,IoHomeOutline} from 'react-icons/io5'
 import {BsPeopleFill} from 'react-icons/bs'
 import {IoMdPeople} from 'react-icons/io'
@@ -7,10 +7,11 @@ import { PiShoppingBagOpenFill } from "react-icons/pi";
 import { BiMessageDetail } from "react-icons/bi";
 import { TbMessages } from "react-icons/tb";
 import { TbBellFilled ,TbBellRinging2Filled } from "react-icons/tb";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLocation ,matchPath } from 'react-router-dom';
 import { FaLinkedin } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
+import LogoutModal from '../LogoutModal';
 const navitems =[
 {
   id:1,
@@ -53,6 +54,13 @@ const Navbar = () => {
   const location = useLocation();
   console.log("location",location.pathname);
   const token = localStorage.getItem("token");
+  const [modalData,setModalData] = useState(null);
+  const navigate = useNavigate();
+  const logout = () =>{
+    localStorage.removeItem("token");
+    setModalData(null);
+    navigate("/")
+}
 
   const matchRoute = (route) => {
     return matchPath({ path: route }, location.pathname)
@@ -113,6 +121,25 @@ const Navbar = () => {
               }
 
               </div>
+              {
+                token && <button onClick={()=>{
+                setModalData({
+                    text1:"Are you really want to logout",
+                    btntxt1:"Clear",
+                    btntxt2:"Logout",
+                    clearfun:()=>{setModalData(null)},
+                    logountfun:()=>{logout()}
+                })
+            }} className="p-1 mt-2 px-2 h-10 border-2 border-red-300 bg-red-600 text-white rounded-xl font-semibold">
+                Log Out
+            </button>
+            
+            }
+            {token &&<div  className={` ${modalData ? ('backdrop-blur-sm fixed inset-0 z-[1000] !mt-0 grid place-items-center overflow-auto bg-white bg-opacity-10'):(' hidden')}`}>
+               {
+                  modalData &&  <LogoutModal modalData={modalData} />
+               }
+        </div>}
               {
                 !token && <div className='flex justify-center items-center gap-5'>
                 <Link to={'/linkedin-signup'} className='p-3 text-gray-600 font-semibold'>

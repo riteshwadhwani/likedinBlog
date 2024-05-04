@@ -3,6 +3,8 @@ import {useForm} from 'react-hook-form'
 import { useEffect } from 'react';
 import Input from './formsComponents/Input';
 import { useNavigate } from 'react-router';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const LoginComponent = () => {
     const navigate = useNavigate();
@@ -17,8 +19,9 @@ const LoginComponent = () => {
         const response = await axios.post('http://localhost:4000/api/v1/user/signin',{
           email:data.email,password:data.password
         });
-        console.log("response",response);
-        localStorage.setItem("token",response.data.token);
+        console.log("response in signin...",response.data?.existing_user);
+        localStorage.setItem("token",JSON.stringify(response.data.token));
+        localStorage.setItem("user",JSON.stringify(response.data?.existing_user));
         toast.success("Log In Sucessfully....")
         navigate('/feed/');
       

@@ -10,7 +10,7 @@ import PrivateRoute from './components/PrivateRoute'
 
 function App() {
   return (
-    <div className='bg-gray-100 w-screen h-screen'>
+    <div className='bg-gray-100  h-fit min-h-screen '>
     <Navbar/>
     <div className='h-8'></div>
          <Routes>
