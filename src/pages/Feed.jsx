@@ -6,6 +6,33 @@ import axios from 'axios';
 import PostModal from '../components/PostModal';
 import { set } from 'firebase/database';
 const Feed = () => {
+   const stories = [
+      {
+         title:"Behind Godrej Group historic split",
+         ago:"19h ago",
+         readers:"12122 readers"
+      },
+      {
+         title:"Credit to large ink bank on track",
+         ago:"20h ago",
+         readers:"1500 readers"
+      },
+      {
+         title:"Thriving at a tech top company",
+         ago:"15h ago",
+         readers:"2308 readers"
+      },
+      {
+         title:"More law firm go local",
+         ago:"19h age",
+         readers:"524 readers"
+      },
+      {
+         title:"Digital push cost bank",
+         ago:"12h ago",
+         readers:"312 readers"
+      },
+   ]
     const [postModalData,setPostModalData] = useState(null);
     const user = JSON.parse(localStorage.getItem("user"));
     const [posts,setPosts] = useState([]);
@@ -70,8 +97,28 @@ const Feed = () => {
                </div>
          
                </div>
-               <div className='w-[28%] h-[300px]  border bg-white rounded-md '>
-         
+               <div className='w-[24%] h-[550px] flex flex-col gap-7  border bg-white  p-7 rounded-lg'>
+                      <p className=' font-semibold text-2xl'>LikedIn News</p>
+                      <p className='text-2xl text-slate-400'>Top stories</p>
+                      <div className='flex flex-col gap-5'>
+                      {
+                        stories.map((item,index)=>{
+                           return <div className='flex flex-col hover:bg-slate-300 p-2 cursor-pointer '>
+                                     <div className='font-semibold'>
+                                        {item.title}
+                                     </div>
+                                     <div className='flex gap-2'>
+                                         <p className=' text-sm text-slate-500'>
+                                          {item.ago}
+                                         </p>
+                                         <p className=' text-sm text-slate-500'>
+                                           {item.readers}
+                                         </p>
+                                     </div>
+                               </div>
+                        })
+                      }
+                      </div>
                </div>
          
          </div>
